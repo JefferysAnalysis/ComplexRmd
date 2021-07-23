@@ -1,0 +1,23 @@
+Package: ComplexRmd
+Title: Support for Complex R Markdown Based Analysis
+Version: 0.0.0
+Authors@R: 
+    person(given = "Stuart R.",
+           family = "Jefferys",
+           role = c("aut", "cre"),
+           email = "srjfferys@gmail.com",
+           comment = c(ORCID = "0000-0001-6259-085X"))
+Description: Writing complex R Markdown documents to do analysis is hard. This
+ package tries to ease some of the burden. It provides for nested documents by
+ allowing customized parameter and environment passing between a parent and
+ child R Markdown.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Language: en-US
