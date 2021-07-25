@@ -1,0 +1,27 @@
+---
+title: "Simple Nesting"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Parent START
+
+**Parent:** Before chunk including *simpleChild.Rmd*.
+
+```{r}
+ComplexRmd::includeChild( "simpleChild.Rmd" )
+```
+
+**Parent:** Between chunk and inline includes of *simpleChild.Rmd*.
+
+**Parent:** Text including *simpleChild.Rmd* inline between quotes: "`r ComplexRmd::includeChild( "simpleChild.Rmd" )`".
+
+Note that a single newline at the end of the child is swallowed.
+
+## Parent END

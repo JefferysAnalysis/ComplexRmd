@@ -1,3 +1,10 @@
+readRmdParams <- function( file ) {
+    file %>%
+    readLines() %>%
+    knitr::knit_params() %>%
+    lapply( function(x) { x[[ "value" ]]  } )
+}
+
 #' Include a child document with parameters
 #'
 #' Includes a child document (as raw markdown text) where called. The parameters
@@ -68,10 +75,7 @@ includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.
             # Will need the child document parameters for all other cases.
             # Have to read and load these manually as knitr ignores the header
             # when reading a document as a child.
-            childParams <- file %>%
-                readLines() %>%
-                knitr::knit_params() %>%
-                lapply( function(x) { x[[ "value" ]]  } )
+            childParams <- readRmdParams( file )
 
             if (param == "onlyChild") {
                 # just want the child parameters, discard anything from parent
@@ -79,7 +83,12 @@ includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.
             }
             else if (param == "parent") {
                 # Only use child params not set in parent.
-                params <- merge( params, childParams )
+                if (! exists( "params" )) {
+                    params <- childParams
+                }
+                else {
+                    params <- merge( params, childParams )
+                }
             }
             else if (param == "child") {
                 # Only use parent params not set in child
@@ -88,17 +97,18 @@ includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.
         }
     }
 
+    # knit_child() defaults to the global env knitr_global(), need to pass
+    # a new environment to supply "params" without changing the current "params"
+    # value. Generally want the calling environment as the parent.
     childEnv <- new.env(parent= envir)
     assign("params", params, envir = childEnv)
-
-    # Note, knit_child() defaults to the global env knitr_global(), need to pass
-    # the current environment explicitly to inject the parameters as updated in
-    # this function.
     mdText <- knitr::asis_output(
         knitr::knit_child( file , quiet= TRUE, envir= childEnv, ... )
     )
 
-    # Guessing a for loop is efficient enough as environments use pointers.
+    # Extract specified variables (including functions) from the child
+    # environment and inject them back, generally into the calling environment.
+    # Assuming a for loop is efficient enough as environments use pointers.
     for (var in import) {
         if (exists( var, envir= childEnv )) {
             assign(var, get(var, envir = childEnv), envir = envir)

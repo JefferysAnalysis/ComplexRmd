@@ -1,0 +1,17 @@
+---
+title: "Simple Child"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Child START
+
+**Child:** Text from *simpleChild.Rmd*.
+
+### Child END
