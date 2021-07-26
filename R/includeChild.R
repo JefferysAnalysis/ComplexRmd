@@ -56,6 +56,13 @@ readRmdParams <- function( file ) {
 #' @export
 includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.frame(), ... ) {
 
+    if (! exists("params", envir = envir,)) {
+        params <- list()
+    }
+    else {
+        params <- get( "params", envir= envir )
+    }
+
     # param is either NULL, an explicit list, or a string from a set.
     if (is.null(param)) {
         # Clear all parameters
@@ -83,12 +90,7 @@ includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.
             }
             else if (param == "parent") {
                 # Only use child params not set in parent.
-                if (! exists( "params" )) {
-                    params <- childParams
-                }
-                else {
-                    params <- merge( params, childParams )
-                }
+                params <- merge( params, childParams )
             }
             else if (param == "child") {
                 # Only use parent params not set in child
@@ -97,13 +99,16 @@ includeChild <- function( file, param="parent", import="RET_VAL", envir= parent.
         }
     }
 
+
     # knit_child() defaults to the global env knitr_global(), need to pass
     # a new environment to supply "params" without changing the current "params"
     # value. Generally want the calling environment as the parent.
     childEnv <- new.env(parent= envir)
     assign("params", params, envir = childEnv)
+
     mdText <- knitr::asis_output(
-        knitr::knit_child( file , quiet= TRUE, envir= childEnv, ... )
+#        do.call( knitr::knit_child, list( file , quiet= TRUE, envir= childEnv, ... ), envir= childEnv )
+        knitr::knit_child( file, quiet= TRUE, envir= childEnv, ... )
     )
 
     # Extract specified variables (including functions) from the child

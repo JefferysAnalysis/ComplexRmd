@@ -1,0 +1,50 @@
+---
+title: "Grand with Parameters"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+params:
+    grand: "grand"
+    grandNparent: "grand"
+    grandNchild: "grand"
+    all: "grand"
+---
+
+```{r, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE, include= TRUE, message = TRUE)
+```
+
+# Grand parent start
+
+Before calling child:
+
+```{r, echo= FALSE}
+paramNames <- c("child", "parent", "grand",
+                "grandNchild", "grandNparent", "parentNchild", "all" )
+opts <- sapply( paramNames, function( opt ) {
+    ifelse(is.null(params[[ opt ]]), "", params[[ opt ]])
+})
+data.frame( Param= opts,
+            WantDirect= c("", "", "grand", "grand", "grand", "", "grand" ))
+```
+
+Calling parent as child:
+
+```{r}
+ComplexRmd::includeChild( "paramParent.Rmd" )
+```
+
+After calling parent as child, back to starting grand parameters:
+
+```{r, echo= FALSE}
+paramNames <- c("child", "parent", "grand",
+                "grandNchild", "grandNparent", "parentNchild", "all" )
+opts <- sapply( paramNames, function( opt ) {
+    ifelse(is.null(params[[ opt ]]), "", params[[ opt ]])
+})
+data.frame( Param= opts,
+            WantDirect= c("", "", "grand", "grand", "grand", "", "grand" ))
+```
+
+# Grand parent end
