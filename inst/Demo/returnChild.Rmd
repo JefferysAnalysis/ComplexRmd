@@ -1,0 +1,35 @@
+---
+title: "Child Returning Variables"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE, include= TRUE, message = TRUE)
+```
+
+### Child START
+
+
+```{r, echo= FALSE}
+child <- "child"
+grandNchild <- "child"
+parentNchild <- "child"
+all <- "child"
+
+varNames <- c("child", "parent", "grand",
+                  "grandNchild", "grandNparent", "parentNchild", "all" )
+vars <- sapply( varNames, function( var ) {
+    ifelse( exists( var), get(var), "")
+})
+
+data.frame( Variable= vars,
+            WantDirect= c("child", "", "", "child", "", "child", "child" ),
+            WantParent= c("child", "parent", "", "child", "parent", "child", "child" ),
+            WantGrand= c("child", "parent", "grand", "child", "parent", "child", "child" )
+)
+```
+
+### Child END

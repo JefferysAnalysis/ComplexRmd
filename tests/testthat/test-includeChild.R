@@ -37,4 +37,17 @@ describe( "includeChild()", {
             })
         })
     })
+    describe( "Kniting with variables", {
+        describe( "import=", {
+            it( "Child doucment knit directly sees its own variables", {
+                testDemo( "returnChild" )
+            })
+            it( "child documents knit by parent sees parents variables, parent imports child over parent", {
+                testDemo( "returnParent" )
+            })
+            it( "child documents knit revursively sees grandparents and parents variables, parent imports child over parent over grand", {
+                testDemo( "returnGrand" )
+            })
+        })
+    })
 })

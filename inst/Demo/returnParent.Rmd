@@ -1,0 +1,61 @@
+---
+title: "Parent with Variables"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE, include= TRUE, message = TRUE)
+```
+
+## Parent start
+
+#### Before calling child:
+
+```{r}
+parent <- "parent"
+grandNparent <- "parent"
+parentNchild <- "parent"
+all <- "parent"
+```
+
+```{r, echo= FALSE}
+varNames <- c("child", "parent", "grand",
+                  "grandNchild", "grandNparent", "parentNchild", "all" )
+vars <- sapply( varNames, function( var ) {
+    ifelse( exists( var), get(var), "")
+})
+
+data.frame( Variable= vars,
+            WantBeforeParent= c("", "parent", "", "", "parent", "parent", "parent" ),
+            WantBeforeGrand= c("", "parent", "grand", "grand", "parent", "parent", "parent" )
+)
+```
+
+#### Calling child:
+
+```{r}
+ComplexRmd::includeChild( "returnChild.Rmd",
+    import = c("child", "grandNchild", "parentNchild", "all" ))
+```
+
+#### After calling child
+
+##### Variables
+
+```{r, echo= FALSE}
+varNames <- c("child", "parent", "grand",
+                  "grandNchild", "grandNparent", "parentNchild", "all" )
+vars <- sapply( varNames, function( var ) {
+    ifelse( exists(var), get(var), "")
+})
+
+data.frame( Variable= vars,
+            WantAfterParent= c("child", "parent", "", "child", "parent", "child", "child" ),
+            WantAfterGrand= c("child", "parent", "grand", "child", "parent", "child", "child" )
+)
+```
+
+## Parent end
