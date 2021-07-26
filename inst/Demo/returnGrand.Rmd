@@ -1,0 +1,58 @@
+---
+title: "Grand Parent with Variables"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE, include= TRUE, message = TRUE)
+```
+
+# Grand parent start
+
+#### Before calling parent as child:
+
+```{r}
+grand <- "grand"
+grandNparent <- "grand"
+grandNchild <- "grand"
+all <- "grand"
+```
+
+```{r, echo= FALSE}
+varNames <- c("child", "parent", "grand",
+                  "grandNchild", "grandNparent", "parentNchild", "all" )
+vars <- sapply( varNames, function( var ) {
+    ifelse( exists( var), get(var), "")
+})
+
+data.frame( Variable= vars,
+            WantBeforeGrand= c("", "", "grand", "grand", "grand", "", "grand" )
+)
+```
+
+
+#### Calling parent as child:
+
+```{r}
+ComplexRmd::includeChild( "returnParent.Rmd", import= varNames )
+```
+
+#### After calling parent as child
+
+```{r, echo= FALSE}
+varNames <- c("child", "parent", "grand",
+                  "grandNchild", "grandNparent", "parentNchild", "all" )
+vars <- sapply( varNames, function( var ) {
+    ifelse( exists( var), get(var), "")
+})
+
+data.frame( Variable= vars,
+            WantAfterGrand= c("child", "parent", "grand", "child", "parent", "child", "child" )
+)
+```
+
+# Grand parent end
+

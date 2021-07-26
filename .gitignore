@@ -1,4 +1,10 @@
-.Rproj.user
+# R
 .Rhistory
 .RData
+
+# RStudio
+.Rproj.user
 .Ruserdata
+
+# Generated
+*.html

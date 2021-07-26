@@ -1,0 +1,19 @@
+---
+title: "SimpleGrand"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Grandparent Start
+
+```{r}
+ComplexRmd::includeChild("simpleParent.Rmd")
+```
+
+# GrandParent End

@@ -1,0 +1,34 @@
+---
+title: "Child with Parameters"
+author: "Stuart R. Jefferys"
+date: "7/25/2021"
+output: html_document
+params:
+    child: "child"
+    grandNchild: "child"
+    parentNchild: "child"
+    all: "child"
+---
+
+```{r, include=FALSE}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(echo = TRUE, include= TRUE, message = TRUE)
+```
+
+### Child START
+
+```{r, echo= FALSE}
+paramNames <- c("child", "parent", "grand",
+                "grandNchild", "grandNparent", "parentNchild", "all" )
+opts <- sapply( paramNames, function( opt ) {
+    ifelse(is.null(params[[ opt ]]), "", params[[ opt ]])
+})
+data.frame( Param= opts,
+            WantDirect= c("child", "", "", "child", "", "child", "child" ),
+            WantFromParent= c("child", "parent", "", "child", "parent", "parent", "parent"),
+            WantFromGrandFromParent= c("child", "parent", "grand", "grand", "grand", "parent", "grand")
+)
+            
+```
+
+### Child END
