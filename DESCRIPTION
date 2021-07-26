@@ -1,6 +1,6 @@
 Package: ComplexRmd
 Title: Support for Complex R Markdown Based Analysis
-Version: 0.0.0
+Version: 0.0.1
 Authors@R: 
     person(given = "Stuart R.",
            family = "Jefferys",
